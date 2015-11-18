@@ -67,7 +67,7 @@ kubelet:
   registry-burst: 0
   registry-qps: 0
   sync-frequency: 10s
-  v: 1
+  v: 4
 kube_proxy:
   kubeconfig: /srv/kubernetes/kube-proxy/kubeconfig
   logtostderr: true
