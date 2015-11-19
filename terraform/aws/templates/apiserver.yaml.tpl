@@ -28,14 +28,6 @@ write_files:
       kubernetes_binaries_uri=${kubernetes_binaries_uri}
       logentries_token=${logentries_token}
       logentries_url=${logentries_url}
-  - path: "/etc/cni/net.d/10-default.conf"
-    permissions: "0644"
-    owner: "root"
-    content: |
-      {
-        "name": "default",
-        "type": "flannel"
-      }
 coreos:
   etcd2:
     proxy: on
@@ -50,20 +42,6 @@ coreos:
     etcd-endpoints: http://${etcd_private_ip}:4001
     interface: $private_ipv4
   units:
-   - name: change-rkt-version.service
-      command: start
-      content: |
-        [Unit]
-        Description=Add Alternate rkt Version
-        Before=format-storage.service
-
-        [Service]
-        ExecStartPre=-/usr/bin/mkdir -p /opt/bin
-        ExecStartPre=/usr/bin/wget -N -P /opt/bin https://github.com/coreos/rkt/releases/download/v0.8.0/rkt-v0.8.0.tar.gz
-        ExecStartPre=/usr/bin/tar -xvzf /opt/bin/rkt-v0.8.0.tar.gz
-        ExecStart=/opt/bin/rkt-v0.8.0/rkt version
-        RemainAfterExit=yes
-        Type=oneshot
     - name: format-storage.service
       command: start
       content: |
