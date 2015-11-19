@@ -14,7 +14,7 @@ ExecStart=/opt/bin/hyperkube kubelet \
     --{{k}}={{v}} \
   {% endfor %}
   --container-runtime=rkt \
-  --rkt-path=/opt/bin/rkt-v0.8.0/rkt \
+  --rkt-path=/opt/bin/rkt-v0.8.1/rkt \
   --api_servers=http://{{master_private_ip}}:8080 \
   --cluster_dns={{dns_ip}} \
   --cluster_domain={{dns_domain}} \
