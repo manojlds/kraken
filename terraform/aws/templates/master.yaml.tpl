@@ -33,6 +33,14 @@ write_files:
       master_private_ip=$private_ipv4
       master_public_ip=$public_ipv4
       apiserver_nginx_pool=${apiserver_nginx_pool}
+  - path: "/etc/cni/net.d/10-default.conf"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      {
+        "name": "default",
+        "type": "flannel"
+      }
 coreos:
   etcd2:
     proxy: on

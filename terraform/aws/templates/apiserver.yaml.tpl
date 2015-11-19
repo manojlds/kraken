@@ -28,6 +28,14 @@ write_files:
       kubernetes_binaries_uri=${kubernetes_binaries_uri}
       logentries_token=${logentries_token}
       logentries_url=${logentries_url}
+  - path: "/etc/cni/net.d/10-default.conf"
+    permissions: "0644"
+    owner: "root"
+    content: |
+      {
+        "name": "default",
+        "type": "flannel"
+      }
 coreos:
   etcd2:
     proxy: on
