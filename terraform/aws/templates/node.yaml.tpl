@@ -64,10 +64,16 @@ coreos:
         [Service]
         ExecStartPre=/usr/bin/wget -N https://github.com/coreos/rkt/releases/download/v0.8.0/rkt-v0.8.0.tar.gz
         ExecStartPre=/usr/bin/tar -xvzf rkt-v0.8.0.tar.gz
-        ExecStartPre=/usr/bin/mv rkt-v0.8.0/rkt /usr/bin/rkt
         ExecStart=/opt/bin/rkt version
         RemainAfterExit=yes
         Type=oneshot
+      drop-ins:
+        - name: replace rkt exe
+          content: |
+            [Service]
+            ExecStartPre=/usr/bin/mv rkt-v0.8.0/rkt /usr/bin/rkt
+            ExecStart=/opt/bin/rkt version
+
     - name: format-storage.service
       command: start
       content: |
