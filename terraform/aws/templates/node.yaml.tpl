@@ -67,6 +67,7 @@ coreos:
         ExecStartPre=/usr/bin/tar -xvzf /opt/bin/rkt-v0.8.0.tar.gz
         ExecStart=/opt/bin/rkt-v0.8.0/rkt version
         RemainAfterExit=yes
+        Type=oneshot
     - name: format-storage.service
       command: start
       content: |

@@ -53,6 +53,7 @@ kubelet:
   enable-debugging-handlers: true
   # use rocket instead of docker
   container-runtime: rkt
+  rkt-path: /opt/bin/rkt-v0.8.0/rkt
   # enable-server: false
   enable-server: true
   healthz-bind-address: 0.0.0.0
