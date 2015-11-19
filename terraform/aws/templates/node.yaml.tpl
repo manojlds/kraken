@@ -58,22 +58,15 @@ coreos:
       command: start
       content: |
         [Unit]
-        Description=Replace rkt Version
+        Description=Add Alternate rkt Version
         Before=format-storage.service
 
         [Service]
-        ExecStartPre=/usr/bin/wget -N https://github.com/coreos/rkt/releases/download/v0.8.0/rkt-v0.8.0.tar.gz
-        ExecStartPre=/usr/bin/tar -xvzf rkt-v0.8.0.tar.gz
-        ExecStart=/opt/bin/rkt version
+        ExecStartPre=-/usr/bin/mkdir -p /opt/bin
+        ExecStartPre=/usr/bin/wget -N -P /opt/bin https://github.com/coreos/rkt/releases/download/v0.8.0/rkt-v0.8.0.tar.gz
+        ExecStartPre=/usr/bin/tar -xvzf /opt/bin/rkt-v0.8.0.tar.gz
+        ExecStart=/opt/bin/rkt-v0.8.0/rkt version
         RemainAfterExit=yes
-        Type=oneshot
-      drop-ins:
-        - name: replace rkt exe
-          content: |
-            [Service]
-            ExecStartPre=/usr/bin/mv rkt-v0.8.0/rkt /usr/bin/rkt
-            ExecStart=/opt/bin/rkt version
-
     - name: format-storage.service
       command: start
       content: |
