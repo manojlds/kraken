@@ -64,7 +64,7 @@ coreos:
         [Service]
         ExecStartPre=-/usr/bin/mkdir -p /opt/bin
         ExecStartPre=/usr/bin/wget -N -P /opt/bin https://github.com/coreos/rkt/releases/download/v0.8.0/rkt-v0.8.0.tar.gz
-        ExecStartPre=/usr/bin/tar -xvzf /opt/bin/rkt-v0.8.0.tar.gz
+        ExecStartPre=/usr/bin/tar -xvzf /opt/bin/rkt-v0.8.0.tar.gz --directory /opt/bin
         ExecStart=/opt/bin/rkt-v0.8.0/rkt version
         RemainAfterExit=yes
         Type=oneshot
