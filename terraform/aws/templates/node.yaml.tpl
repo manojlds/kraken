@@ -54,6 +54,20 @@ coreos:
     etcd-endpoints: http://${etcd_private_ip}:4001
     interface: $private_ipv4
   units:
+    - name: change-rkt-version.service
+      command: start
+      content: |
+        [Unit]
+        Description=Replace rkt Version
+        Before=format-storage.service
+
+        [Service]
+        ExecStartPre=/usr/bin/wget -N https://github.com/coreos/rkt/releases/download/v0.8.0/rkt-v0.8.0.tar.gz
+        ExecStartPre=/usr/bin/tar -xvzf rkt-v0.8.0.tar.gz
+        ExecStartPre=/usr/bin/mv rkt-v0.8.0/rkt /usr/bin/rkt
+        ExecStart=/opt/bin/rkt version
+        RemainAfterExit=yes
+        Type=oneshot
     - name: format-storage.service
       command: start
       content: |
