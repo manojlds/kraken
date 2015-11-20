@@ -81,11 +81,7 @@ coreos:
         ExecStart=/usr/sbin/mkfs.ext4 -F ${format_docker_storage_mnt}
         ExecStart=/usr/sbin/mkfs.ext4 -F ${format_kubelet_storage_mnt}
     - name: docker.service
-      drop-ins:
-        - name: 50-docker-opts.conf
-          content: |
-            [Service]
-            Environment="DOCKER_OPTS=--log-level=warn"
+      mask: yes
     - name: var-lib-docker.mount
       command: start
       content: |
@@ -110,20 +106,6 @@ coreos:
         What=${format_kubelet_storage_mnt}
         Where=/var/lib/kubelet
         Type=ext4
-    - name: docker-tcp.socket
-      command: start
-      enable: true
-      content: |
-        [Unit]
-        Description=Docker Socket for the API
-
-        [Socket]
-        ListenStream=0.0.0.0:4243
-        BindIPv6Only=both
-        Service=docker.service
-
-        [Install]
-        WantedBy=sockets.target
     - name: setup-network-environment.service
       command: start
       content: |
@@ -205,7 +187,7 @@ coreos:
         WorkingDirectory=/opt/kraken
         ExecStart=/usr/bin/git fetch ${kraken_repo} +refs/pull/*:refs/remotes/origin/pr/*
         ExecStart=/usr/bin/git checkout -f ${kraken_commit}
-    - name: ansible-in-docker.service
+    - name: ansible-in-rkt.service
       command: start
       content: |
         [Unit]
@@ -216,8 +198,7 @@ coreos:
         Type=simple
         Restart=on-failure
         RestartSec=3
-        ExecStartPre=-/usr/bin/docker rm -f ansible-docker
-        ExecStart=/usr/bin/docker run --name ansible-docker -v /etc/inventory.ansible:/etc/inventory.ansible -v /opt/kraken:/opt/kraken -v /home/core/.ssh/ansible_rsa:/opt/ansible/private_key -v /var/run:/ansible -e ANSIBLE_HOST_KEY_CHECKING=False ${ansible_docker_image} /sbin/my_init --skip-startup-files --skip-runit -- ${ansible_playbook_command} ${ansible_playbook_file}
+        ExecStart=/opt/bin/rkt-v0.8.1/rkt run --insecure-skip-verify --volume /etc/inventory.ansible,kind=host,source=/etc/inventory.ansible --volumne /opt/kraken,kind=host,source=/opt/kraken --volume opt/ansible/private_key,kind=host,source=/home/core/.ssh/ansible_rsa --volume /ansible,kind=host,source=/var/run --set-env=ANSIBLE_HOST_KEY_CHECKING=False docker://${ansible_docker_image} --exec /sbin/my_init -- --skip-startup-files --skip-runit -- ${ansible_playbook_command} ${ansible_playbook_file}
   update:
     group: ${coreos_update_channel}
     reboot-strategy: ${coreos_reboot_strategy}
