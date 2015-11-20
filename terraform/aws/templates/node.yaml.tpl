@@ -198,7 +198,7 @@ coreos:
         Type=simple
         Restart=on-failure
         RestartSec=3
-        ExecStart=/opt/bin/rkt-v0.8.1/rkt run --insecure-skip-verify --volume /etc/inventory.ansible,kind=host,source=/etc/inventory.ansible --volumne /opt/kraken,kind=host,source=/opt/kraken --volume opt/ansible/private_key,kind=host,source=/home/core/.ssh/ansible_rsa --volume /ansible,kind=host,source=/var/run --set-env=ANSIBLE_HOST_KEY_CHECKING=False docker://${ansible_docker_image} --exec /sbin/my_init -- --skip-startup-files --skip-runit -- ${ansible_playbook_command} ${ansible_playbook_file}
+        ExecStart=/opt/bin/rkt-v0.8.1/rkt run --insecure-skip-verify --volume volume-/etc/inventory-ansible,kind=host,source=/etc/inventory.ansible --volumne volume-/opt/kraken,kind=host,source=/opt/kraken --volume volume-/opt/ansible/private_key,kind=host,source=/home/core/.ssh/ansible_rsa --volume volume-/ansible,kind=host,source=/var/run --set-env=ANSIBLE_HOST_KEY_CHECKING=False docker://${ansible_docker_image} --exec /sbin/my_init -- --skip-startup-files --skip-runit -- ${ansible_playbook_command} ${ansible_playbook_file}
   update:
     group: ${coreos_update_channel}
     reboot-strategy: ${coreos_reboot_strategy}
