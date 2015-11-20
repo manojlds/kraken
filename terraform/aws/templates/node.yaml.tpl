@@ -32,7 +32,7 @@ write_files:
       logentries_url=${logentries_url}
       master_private_ip=${master_private_ip}
       master_public_ip=${master_public_ip}
-  - path: "/etc/cni/net.d/10-containernet.conf"
+  - path: "/etc/rkt/net.d/10-containernet.conf"
     permissions: "0644"
     owner: "root"
     content: |
