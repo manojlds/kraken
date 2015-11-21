@@ -193,7 +193,7 @@ coreos:
         [Unit]
         Requires=write-sha-file.service
         After=fetch-kraken-commit.service
-        Description=Runs a prebaked ansible container
+        Description=Runs a prebaked appc ansible container
         [Service]
         Type=simple
         Restart=on-failure
