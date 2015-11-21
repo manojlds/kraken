@@ -249,6 +249,10 @@ variable "ansible_docker_image" {
   default = "quay.io/samsung_ag/kraken_ansible"
   description = "Docker image to use for ansible-in-docker"
 }
+variable "ansible_appc_image" {
+  default = "http://appc-image-repo.s3-website-us-west-2.amazonaws.com/appc_kraken_ansible"
+  description = "rkt appc image to use for ansible-in-rkt"
+}
 variable "dns_domain" {
   default = "kubernetes.local"
   description = "Kubenretes DNS domain"

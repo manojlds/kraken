@@ -262,6 +262,7 @@ resource "template_file" "etcd_cloudinit" {
     kraken_branch = "${var.kraken_repo.branch}"
     kraken_commit = "${var.kraken_repo.commit_sha}"
     ansible_docker_image = "${var.ansible_docker_image}"
+    ansible_appc_image = "${var.ansible_appc_image}"
   }
 }
 resource "aws_instance" "kubernetes_etcd" {
@@ -316,6 +317,7 @@ resource "template_file" "apiserver_cloudinit" {
     kraken_branch = "${var.kraken_repo.branch}"
     kraken_commit = "${var.kraken_repo.commit_sha}"
     ansible_docker_image = "${var.ansible_docker_image}"
+    ansible_appc_image = "${var.ansible_appc_image}"
   }
 }
 resource "aws_instance" "kubernetes_apiserver" {
@@ -375,6 +377,7 @@ resource "template_file" "master_cloudinit" {
     apiserver_nginx_pool = "${join(" ", concat(formatlist("server %v:8080;", aws_instance.kubernetes_apiserver.*.private_ip)))}"
     kraken_commit = "${var.kraken_repo.commit_sha}"
     ansible_docker_image = "${var.ansible_docker_image}"
+    ansible_appc_image = "${var.ansible_appc_image}"
   }
 }
 resource "aws_instance" "kubernetes_master" {
@@ -436,6 +439,7 @@ resource "template_file" "node_cloudinit_special" {
     kraken_branch = "${var.kraken_repo.branch}"
     kraken_commit = "${var.kraken_repo.commit_sha}"
     ansible_docker_image = "${var.ansible_docker_image}"
+    ansible_appc_image = "${var.ansible_appc_image}"
   }
 }
 resource "aws_instance" "kubernetes_node_special" {
@@ -505,6 +509,7 @@ resource "template_file" "node_cloudinit" {
     kraken_branch = "${var.kraken_repo.branch}"
     kraken_commit = "${var.kraken_repo.commit_sha}"
     ansible_docker_image = "${var.ansible_docker_image}"
+    ansible_appc_image = "${var.ansible_appc_image}"
   }
 }
 resource "aws_launch_configuration" "kubernetes_node" {
