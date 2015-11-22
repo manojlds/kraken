@@ -78,8 +78,10 @@ coreos:
         RemainAfterExit=yes
         ExecStart=/usr/sbin/wipefs -f ${format_docker_storage_mnt}
         ExecStart=/usr/sbin/wipefs -f ${format_kubelet_storage_mnt}
+        ExecStart=/usr/sbin/wipefs -f ${format_rkt_storage_mnt}
         ExecStart=/usr/sbin/mkfs.ext4 -F ${format_docker_storage_mnt}
         ExecStart=/usr/sbin/mkfs.ext4 -F ${format_kubelet_storage_mnt}
+        ExecStart=/usr/sbin/mkfs.ext4 -F ${format_rkt_storage_mnt}
     - name: docker.service
       mask: yes
     - name: var-lib-docker.mount
@@ -105,6 +107,18 @@ coreos:
         [Mount]
         What=${format_kubelet_storage_mnt}
         Where=/var/lib/kubelet
+        Type=ext4
+    - name: var-lib-rkt.mount
+      command: start
+      content: |
+        [Unit]
+        Description=Mount to /var/lib/rkt
+        Requires=format-storage.service
+        After=format-storage.service
+        Before=ansible-in-rkt.service
+        [Mount]
+        What=${format_rkt_storage_mnt}
+        Where=/var/lib/rkt
         Type=ext4
     - name: setup-network-environment.service
       command: start

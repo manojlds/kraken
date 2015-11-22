@@ -104,6 +104,10 @@ variable "aws_storage_type_node_kubelet" {
   description = "Primary volume type for nodes for /var/lib/kubelet"
   default = "ebs"
 }
+variable "aws_storage_type_node_rkt" {
+  description = "Primary volume type for nodes for /var/lib/rkt"
+  default = "ebs"
+}
 variable "aws_storage_type" {
   description = "[DEPRECATED] use aws_storage_type_node_docker an aws_storage_type_node_kubelet instead"
   default = "ebs"
@@ -200,6 +204,13 @@ variable "format_kubelet_storage_mnt" {
     "ephemeral" = "/dev/xvdc"
   }
   description = "Mount point for EBS drive to move /var/lib/kubelet to"
+}
+variable "format_rkt_storage_mnt" {
+  default =  {
+    "ebs" = "/dev/xvdh"
+    "ephemeral" = "/dev/xvdd"
+  }
+  description = "Mount point for EBS drive to move /var/lib/rkt to"
 }
 variable "kraken_port_low" {
   default = "30000"
