@@ -92,6 +92,10 @@ variable "aws_storage_type_special_kubelet" {
   description = "Primary volume type for special nodes for /var/lib/kubelet. Comma-sperated list. Count must = special_node_count"
   default = "ebs"
 }
+variable "aws_storage_type_special_rkt" {
+  description = "Primary volume type for special nodes for /var/lib/rkt. Comma-sperated list. Count must = special_node_count"
+  default = "ebs"
+}
 variable "aws_storage_type_special" {
   description = "[DEPRECATED] use aws_storage_type_special_docker and aws_storage_type_special_kubelet instead"
   default = "ebs"
@@ -167,6 +171,10 @@ variable "aws_volume_type_special_docker" {
 variable "aws_volume_type_special_kubelet" {
   default = "gp2"
   description = "Type of EBS volume attached special nodes for /var/lib/kubelet. Comma-sperated list. Count must = special_node_count."
+}
+variable "aws_volume_type_special_rkt" {
+  default = "gp2"
+  description = "Type of EBS volume attached special nodes for /var/lib/rkt. Comma-sperated list. Count must = special_node_count."
 }
 variable "aws_volume_type_special" {
   default = "gp2"
