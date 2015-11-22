@@ -32,12 +32,12 @@ write_files:
       logentries_url=${logentries_url}
       master_private_ip=${master_private_ip}
       master_public_ip=${master_public_ip}
-  - path: "/etc/rkt/net.d/10-containernet.conf"
+  - path: "/etc/rkt/net.d/10-default.conf"
     permissions: "0644"
     owner: "root"
     content: |
       {
-        "name": "containernet",
+        "name": "default",
         "type": "flannel"
       }
 coreos:
