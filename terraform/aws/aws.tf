@@ -461,6 +461,11 @@ resource "aws_instance" "kubernetes_node_special" {
     volume_size = "${element(split(",", var.aws_volume_size_special), count.index)}"
     volume_type = "${element(split(",", var.aws_volume_type_special), count.index)}"
   }
+  ebs_block_device {
+    device_name = "/dev/sdh"
+    volume_size = "${element(split(",", var.aws_volume_size_special), count.index)}"
+    volume_type = "${element(split(",", var.aws_volume_type_special), count.index)}"
+  }
   ephemeral_block_device {
     device_name = "/dev/sdb"
     virtual_name = "ephemeral0"
@@ -468,6 +473,10 @@ resource "aws_instance" "kubernetes_node_special" {
   ephemeral_block_device {
     device_name = "/dev/sdc"
     virtual_name = "ephemeral1"
+  }
+  ephemeral_block_device {
+    device_name = "/dev/sdd"
+    virtual_name = "ephemeral2"
   }
   user_data = "${element(template_file.node_cloudinit_special.*.rendered, count.index)}"
   tags {
@@ -531,6 +540,11 @@ resource "aws_launch_configuration" "kubernetes_node" {
     volume_size = "${var.aws_volume_size}"
     volume_type = "${var.aws_volume_type}"
   }
+  ebs_block_device {
+    device_name = "/dev/sdh"
+    volume_size = "${var.aws_volume_size}"
+    volume_type = "${var.aws_volume_type}"
+  }
   ephemeral_block_device {
     device_name = "/dev/sdb"
     virtual_name = "ephemeral0"
@@ -538,6 +552,10 @@ resource "aws_launch_configuration" "kubernetes_node" {
   ephemeral_block_device {
     device_name = "/dev/sdc"
     virtual_name = "ephemeral1"
+  }
+  ephemeral_block_device {
+    device_name = "/dev/sdd"
+    virtual_name = "ephemeral2"
   }
 }
 resource "aws_autoscaling_group" "kubernetes_nodes" {
